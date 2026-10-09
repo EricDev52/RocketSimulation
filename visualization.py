@@ -11,6 +11,7 @@ def plotSimulation(dataset : pd.DataFrame): # Plots the data of a rocket simulat
     thrustY : list[float] = df["thrust"]
     gravityY : list[float] = df["gravity"]
     dragY : list[float] = df["drag"]
+    buoyancyY : list[float] = df["buoyancy"]
     forceY : list[float] = df["force"]
     accelerationY : list[float] = df["acc"]
     velocityY : list[float] = df["vel"]
@@ -34,11 +35,11 @@ def plotSimulation(dataset : pd.DataFrame): # Plots the data of a rocket simulat
         if dragY[i] > 0: positiveDragY.append(dragY[i]); negativeDragY.append(0)
         elif dragY[i] < 0: positiveDragY.append(0); negativeDragY.append(abs(dragY[i]))
         else: positiveDragY.append(0); negativeDragY.append(0)
-    forces = np.vstack([abs(np.array(gravityY)), abs(np.array(thrustY)), negativeDragY, positiveDragY])
+    forces = np.vstack([abs(np.array(gravityY)), abs(np.array(thrustY)), negativeDragY, positiveDragY, abs(np.array(buoyancyY))])
     thrustSign = "+"
     if thrustForce < 0: thrustSign = "-"
     axis[0, 0].set_title("Absolute Forces Stacked", color="white", y=0.9)
-    axis[0, 0].stackplot(x, forces, labels=["Gravity (-N)", "Thrust ("+thrustSign+"N)", "Drag (-N)", "Drag (+N)"], colors=["tab:blue", "#d63d1e", "#048787", "#878704"])
+    axis[0, 0].stackplot(x, forces, labels=["Gravity (-N)", "Thrust ("+thrustSign+"N)", "Drag (-N)", "Drag (+N)", "Buoyancy (+N)"], colors=["tab:blue", "#d63d1e", "#048787", "#878704", "tab:purple"])
     axis[0, 0].legend(fancybox=True, shadow=True); axis[0, 0].tick_params(axis='y', labelcolor="tab:blue");
 
     axis[0, 1].set_title("F=ma", color="white", y=0.9)
